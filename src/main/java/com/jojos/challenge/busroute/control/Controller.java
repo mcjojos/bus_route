@@ -31,7 +31,7 @@ public class Controller {
     @GetMapping
     public DirectView isDirect(@RequestParam("dep_sid") int departure, @RequestParam("arr_sid") int arrival) {
         boolean exist = routeService.isThereConnectionBetween(departure, arrival);
-        log.info(String.format("Connection between %d and %d %sexists", departure, arrival, !exist ? "doesn't " : " "));
+        log.info(String.format("Connection between %d and %d %sexists", departure, arrival, !exist ? "doesn't " : ""));
         return new DirectView(departure, arrival, exist);
     }
 }
