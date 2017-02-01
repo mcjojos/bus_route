@@ -77,7 +77,7 @@ public class RouteUtils {
      *
      */
     static RouteStore loadRoutesFromStreamAndValidate(Supplier<Stream<String>> stream) {
-        String firstElement = stream.get().findFirst().orElseThrow(() -> new IllegalArgumentException("Invalid first element"));
+        String firstElement = stream.get().peek(s -> System.out.println("ss: " + s)).findFirst().orElseThrow(() -> new IllegalArgumentException("Invalid first element"));
 
         // rule 1
         int routeCount = Integer.parseInt(firstElement);
