@@ -95,14 +95,24 @@ Response:
 
 ### Implementation
 
-The solution is implemented in Java 8 using spring boot.
+The solution is implemented in Java 8 using spring boot and maven.
 
 ### How to run it
 
 Simply run
+```
 mvn clean package
-and
-java -jar target/bus-route-1.0-SNAPSHOT.jar /path/to/the/bus/route/data/file
 
-Simply run ./build.sh to build and package the application
-and then run ./service.sh start|stop|block /path/to/the/bus/route/data/file
+and
+
+java -jar target/bus-route-1.0-SNAPSHOT.jar /path/to/the/bus/route/data/file
+```
+
+Or else run
+```
+bash ./build.sh
+```
+to build and package the application and then
+```
+bash ./service.sh start|stop|block /path/to/the/bus/route/data/file
+```
