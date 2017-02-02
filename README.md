@@ -108,6 +108,7 @@ and
 java -jar target/bus-route-1.0-SNAPSHOT.jar /path/to/the/bus/route/data/file
 
 ```
+You can find two examples of route files under src/main/resources/examples
 
 Or else run
 ```

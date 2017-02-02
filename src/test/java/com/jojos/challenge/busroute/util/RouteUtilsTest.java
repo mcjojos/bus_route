@@ -135,7 +135,7 @@ public class RouteUtilsTest {
     // commenting this time consuming test
 //    @Test
     public void loadBigRouteFile() throws IOException {
-        String fileName = "routes.txt";
+        String fileName = "examples/small_route";
         try {
             produceBigFile(fileName);
 
