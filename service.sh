@@ -20,7 +20,7 @@ start() {
             rm -f $PIDFILE
         fi
     fi
-    local CMD="$RUN $DATA_FILE &> \"$LOGFILE\" & echo \$!"
+    local CMD="$RUN $DATA_FILE > \"$LOGFILE\" & echo \$!"
     sh -c "$CMD" > $PIDFILE
 }
 

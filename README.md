@@ -110,7 +110,8 @@ java -jar target/bus-route-1.0-SNAPSHOT.jar /path/to/the/bus/route/data/file
 ```
 You can find two examples of route files under src/main/resources/examples
 
-Or else run
+
+Apart from the standard away you can run the following
 ```
 bash ./build.sh
 ```
@@ -118,3 +119,6 @@ to build and package the application and then
 ```
 bash ./service.sh start|stop|block /path/to/the/bus/route/data/file
 ```
+
+Take note that the application is running on port 8088
+
