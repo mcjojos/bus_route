@@ -1,7 +1,6 @@
 package com.jojos.challenge.busroute.service;
 
 import java.util.LinkedHashSet;
-import java.util.Set;
 
 /**
  * An interface to mark the means of storing the route information.
@@ -20,19 +19,23 @@ public interface RouteStore {
      * @param routeId, uniquely identify the route
      * @param stationIds the ordered set of station ids
      */
-    void storeRoute(int routeId, LinkedHashSet<Integer> stationIds);
+    default void storeRoute(int routeId, LinkedHashSet<Integer> stationIds) {}
 
     /**
      * The total number of routes that have been stored in the data store
      * @return the total number of stored routes
      */
-    int getTotalNumberOfRoutes();
+    default int getTotalNumberOfRoutes() {
+        return 0;
+    }
 
     /**
      * The total number of distinct stations that are found stored in the data store
      * @return the total number of unique stations
      */
-    int getTotalNumberOfStations();
+    default int getTotalNumberOfStations() {
+        return 0;
+    }
 
     /**
      * If a direct connection between the two stations exists then return true.

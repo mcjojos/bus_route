@@ -6,8 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectStreamException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,12 +20,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
+ * Class that offers helping functionalities like loading a file from a file-path
+ * or load a file from a stream supplier and validate it accoring to a set of rules etc
+ *
  * @author karanikasg@gmail.com.
  */
 public class RouteUtils {
 
     private static final Logger log = LoggerFactory.getLogger(RouteUtils.class);
-
 
     public static final int MAX_BUS_ROUTES = 100_000;
     public static final int MAX_STATIONS = 1_000_000;
@@ -59,11 +59,6 @@ public class RouteUtils {
         return Stream::empty;
     }
 
-    public static RouteStore loadRoutesFromFileAndValidate(String filePath) {
-        Supplier<Stream<String>> stream = RouteUtils.loadFile(filePath);
-        return loadRoutesFromStreamAndValidate(stream);
-    }
-
     /**
      * For the time being these are the following validations:
      * 1. the first line must contain a number representing the number of N routes contained in the file
@@ -76,8 +71,8 @@ public class RouteUtils {
      * 8. 1,000,000 as upper limit for the number of stations
      *
      */
-    static RouteStore loadRoutesFromStreamAndValidate(Supplier<Stream<String>> stream) {
-        String firstElement = stream.get().peek(s -> System.out.println("ss: " + s)).findFirst().orElseThrow(() -> new IllegalArgumentException("Invalid first element"));
+    public static RouteStore loadRoutesFromStreamAndValidate(Supplier<Stream<String>> stream) {
+        String firstElement = stream.get().findFirst().orElseThrow(() -> new IllegalArgumentException("Invalid first element"));
 
         // rule 1
         int routeCount = Integer.parseInt(firstElement);
@@ -117,12 +112,6 @@ public class RouteUtils {
         return routeStore;
     }
 
-    private static void throwIf(boolean condition, String message) {
-        if (condition) {
-            throw new IllegalArgumentException(message);
-        }
-    }
-
     public static <K, V> boolean addToContainedSet(ConcurrentMap<K, Set<V>> map, K mapKey, V value) {
         Set<V> existingSet = map.get(mapKey);
         if (existingSet == null) {
@@ -133,6 +122,12 @@ public class RouteUtils {
             }
         }
         return existingSet.add(value);
+    }
+
+    private static void throwIf(boolean condition, String message) {
+        if (condition) {
+            throw new IllegalArgumentException(message);
+        }
     }
 
 }

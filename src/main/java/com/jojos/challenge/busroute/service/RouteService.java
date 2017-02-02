@@ -1,6 +1,5 @@
 package com.jojos.challenge.busroute.service;
 
-import com.jojos.challenge.busroute.util.RouteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -9,6 +8,11 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
+
+import static com.jojos.challenge.busroute.util.RouteUtils.loadFile;
+import static com.jojos.challenge.busroute.util.RouteUtils.loadRoutesFromStreamAndValidate;
 
 /**
  * A component that will complete (i.e. the {@link #run(ApplicationArguments) method will be called}
@@ -32,16 +36,29 @@ public class RouteService implements ApplicationRunner {
         List<String> nonOptionArgs = args.getNonOptionArgs();
 
         if (nonOptionArgs == null || nonOptionArgs.isEmpty()) {
-            throw new IllegalArgumentException("No input bus route data file defined... exiting");
+            log.error("Houston we have a problem, no input bus route data file defined... Returning always false");
+            routeStore = new RouteStore() {};
+        } else {
+            String filePath = nonOptionArgs.get(0);
+            log.info("Loading route map from {}", filePath);
+
+            routeStore = loadRoutesFromFileAndValidate(filePath);
         }
-        String filePath = nonOptionArgs.get(0);
-
-        log.info("Loading route map from {}", filePath);
-
-        routeStore = RouteUtils.loadRoutesFromFileAndValidate(filePath);
-
     }
 
+    public RouteStore loadRoutesFromFileAndValidate(String filePath) {
+        Supplier<Stream<String>> stream = loadFile(filePath);
+        return loadRoutesFromStreamAndValidate(stream);
+    }
+
+    /**
+     * Returns the answer to the question:
+     * Is there any route in the bus route data from point A to point B?
+     *
+     * @param departure start bus station
+     * @param arrival ebd bus station
+     * @return true or false depending on whether the route exists
+     */
     public boolean isThereConnectionBetween(int departure, int arrival) {
         return routeStore.isDirectConnectionExistBetween(departure, arrival);
     }

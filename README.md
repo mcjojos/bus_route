@@ -102,10 +102,11 @@ The solution is implemented in Java 8 using spring boot and maven.
 Simply run
 ```
 mvn clean package
-
+```
 and
-
+```
 java -jar target/bus-route-1.0-SNAPSHOT.jar /path/to/the/bus/route/data/file
+
 ```
 
 Or else run
